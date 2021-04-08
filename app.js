@@ -40,95 +40,70 @@ app.post('/user/login',(request,response) => {
         })
     .catch(err => console.log(err));
   })
+app.post('/getuser',(req,res)=>{
+  const db = dbService.getDbServiceInstance();
+  const {id,isDev}=req.body;
+  const result = db.getUserById(id,isDev);
+  result.then(data=>{
+    res.json({data:data})
+  })
+  .catch(err=>{
+    res.json({error:err.message});
+  })
+})
+app.post('/register',(req,res)=>{
+  const db=dbService.getDbServiceInstance();
+  const {name,email,password,isDev}=req.body;
+  const result = db.registerUser(name,email,password,isDev);
+  result.then(data=>{
+    res.json({data:data})
+  })
+  .catch(err=> {
+    res.json({error:err.message})
+  })
+});
+  app.post('/getbug',(req,res)=>{
+    const db=dbService.getDbServiceInstance();
+    const {bug_id}=req.body;
+    const result=db.getBug(bug_id);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:err};
+
+    })
+  });
+  app.post('/getstatusbugs',(req,res)=>{
+    const db = dbService.getDbServiceInstance();
+    const {status}=req.body;
+    const result = db.getStatusBugs(status);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:err};
+
+    })
+
+  });
+  app.post('/getseveritybugs',(req,res)=>{
+    const db = dbService.getDbServiceInstance();
+    const {severity}=req.body;
+    const result = db.getSeverityBugs(severity);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:err};
+
+    })
+
+  })
 
 app.get("/", (req, res) => {
   res.json({name : "Kashika"})
 });
-
-// app.get("/seatavailability", checkNotAuthenticated, (req, res) => {
-//   res.render("seatavailability", { user: req.user });
-// });
-
-// app.get("/searchtrains/:stations", checkNotAuthenticated, (req, res) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getTrains(req.params.stations);
-//   result.then(data => {
-//           res.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// });
-
-// app.get("/myticketslist", checkNotAuthenticated, (req, res) => {
-//   res.render("ticketList", { user: req.user });
-// });
-
-// app.post('/bookticket', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const {train_num,src,dest}= request.body;
-//   const result = db.bookTicket(request.user.id,train_num,src,dest);
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// })
-
-// app.get('/gettickets', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getTickets(request.user.id);
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// })
-
-// app.get('/ticketdetail/:id', checkNotAuthenticated,(request,response) => {
-//     response.render("ticketdetail", { user: request.user });
-// })
-
-// app.get('/getticket/:id', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getTicketDetail(request.params.id);
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// })
-
-// app.get('/traindetail/:id', checkNotAuthenticated,(request,response) => {
-//   response.render("traindetail");
-// })
-
-// app.get('/getstations', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getStations();
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// });
-
-// app.get('/gettrainname/:num', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getTrainName(request.params.num);
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// });
-
-// app.get('/gettraindetail/:num', checkNotAuthenticated,(request,response) => {
-//   const db = dbService.getDbServiceInstance();
-//   const result = db.getTrainDetail(request.params.num);
-//   result.then(data => {
-//           response.json({data : data})
-//       })
-//   .catch(err => console.log(err));
-// })
-
-
-
-
-
 
 const port = process.env.PORT || '5000';
 app.listen(port, () => console.log(`Server started on Port ${port}`));
