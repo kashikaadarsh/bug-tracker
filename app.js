@@ -41,9 +41,9 @@ app.post('/user/login',(request,response) => {
     .catch(err => console.log(err));
   })
 
-// app.get("/", checkAuthenticated, (req, res) => {
-//   res.redirect('/users/login');
-// });
+app.get("/", (req, res) => {
+  res.json({name : "Kashika"})
+});
 
 // app.get("/seatavailability", checkNotAuthenticated, (req, res) => {
 //   res.render("seatavailability", { user: req.user });
