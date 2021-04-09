@@ -40,7 +40,7 @@ app.post('/user/login',(request,response) => {
         })
     .catch(err => console.log(err));
   })
-app.post('/getuser',(req,res)=>{
+app.get('/getuser',(req,res)=>{
   const db = dbService.getDbServiceInstance();
   const {id,isDev}=req.body;
   const result = db.getUserById(id,isDev);

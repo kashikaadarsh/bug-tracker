@@ -55,7 +55,30 @@ var db_config = {
   
   handleDisconnect();
 
+  async function  checkUser(email,isDev){
+    try{
+      var query;
+      const user = await new Promise((resolve, reject) => {
+        if(isDev)
+         query = "SELECT * FROM developer WHERE email = ? ";
+        else
+        query = "SELECT * FROM tester where email =? ";
 
+        connection.query(query, [email] , (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+        })
+    });
+      console.log(user);
+      if(user.length==0)
+      return false;
+      else
+      return true;
+      //return user;
+    }
+    catch{return false;}
+  }
+  
 class DbService {
 
     static getDbServiceInstance() {
@@ -95,9 +118,20 @@ class DbService {
         };
       }
     }
+  
     async registerUser(name,email,password,isDev){
       try{
-        var query;                     //userExists=false;
+        const db=DbService.getDbServiceInstance();
+        var userExists=await checkUser(email,isDev);
+        var query;
+        if(userExists){
+          return {
+            name:name,
+            register: "already registered",
+            error:false
+          };}
+        console.log(userExists);
+        
         
         const user = await new Promise((resolve,reject)=>{
           if(isDev)
