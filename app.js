@@ -62,7 +62,7 @@ app.post('/register',(req,res)=>{
     res.json({error:err.message})
   })
 });
-  app.post('/getbug',(req,res)=>{
+  app.get('/getbug',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {bug_id}=req.body;
     const result=db.getBug(bug_id);
@@ -74,7 +74,7 @@ app.post('/register',(req,res)=>{
 
     })
   });
-  app.post('/getstatusbugs',(req,res)=>{
+  app.get('/getstatusbugs',(req,res)=>{
     const db = dbService.getDbServiceInstance();
     const {status}=req.body;
     const result = db.getStatusBugs(status);
@@ -87,7 +87,7 @@ app.post('/register',(req,res)=>{
     })
 
   });
-  app.post('/getseveritybugs',(req,res)=>{
+  app.get('/getseveritybugs',(req,res)=>{
     const db = dbService.getDbServiceInstance();
     const {severity}=req.body;
     const result = db.getSeverityBugs(severity);
