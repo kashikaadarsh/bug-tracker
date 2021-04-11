@@ -189,11 +189,15 @@ class DbService {
               };
           }
     }
-    async authUser(email,password) {
+    async authUser(email,password,isDev) {
       console.log(email,password);
           try {
+            var query;
               const user = await new Promise((resolve, reject) => {
-                  const query = "SELECT * FROM users WHERE email = ? AND password=?";
+                if(isDev)
+                query="SELECT * FROM developer WHERE email = ? AND password=?;"
+                else
+                query="SELECT * FROM tester WHERE email = ? AND password=?;"
                   connection.query(query, [email,password] , (err, result) => {
                       if (err) reject(new Error(err.message));
                       resolve(result);

@@ -32,9 +32,9 @@ app.use(express.json());
 app.post('/user/login',(request,response) => {
     const db = dbService.getDbServiceInstance();
     console.log(request.body);
-    const {email,password}= request.body;
+    const {email,password,isDev}= request.body;
     console.log(email,password);
-    const result = db.authUser(email,password);
+    const result = db.authUser(email,password,isDev);
     result.then(data => {
             response.json({data : data})
         })
