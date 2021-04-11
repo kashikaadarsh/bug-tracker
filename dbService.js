@@ -190,7 +190,7 @@ class DbService {
           }
     }
     async authUser(email,password,isDev) {
-      console.log(email,password);
+      //console.log(email,password);
           try {
             var query;
               const user = await new Promise((resolve, reject) => {
@@ -211,17 +211,30 @@ class DbService {
 
                   };
               }
+              //console.log(user[0].name,user[0].email,user[0].activeIssues,user[0].createdIssues,user[0].solvedIssues);
+              if(isDev){
+                return{
+                  userFound:true,
+                  username:user[0].name,
+                  email:user[0].email,
+                  activeIssues:user[0].activeIssues,
+                  createdIssues:user[0].createdIssues,
+                  solvedIssues:user[0].solvedIssues,
+
+                };
+              }
               return {
                   userFound : true,
                   username : user[0].username,
-                 // password : user[0].password,
-                  id : user[0].id,
+                  email:user[0].email,
+                  testedIssues:user[0].testedIssues,
+                  createdIssues:user[0].createdIssues,
                   error:false
               };
           } 
           catch (error) {
               return {
-                  error:true
+                  error:error//true
               };
           }
     }

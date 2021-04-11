@@ -20,11 +20,7 @@ app.use(
     saveUninitialized: false
   })
 );
-// const initializePassport = require("./passportConfig");
-// initializePassport(passport);
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
+
 app.use(express.json());
 //app.set("view engine", "ejs");
 //app.use(express.static(__dirname + '/views'));
@@ -74,33 +70,6 @@ app.post('/register',(req,res)=>{
 
     })
   });
-  app.get('/getstatusbugs',(req,res)=>{
-    const db = dbService.getDbServiceInstance();
-    const {status}=req.body;
-    const result = db.getStatusBugs(status);
-    result.then(data=>{
-      res.json({data:data})
-    })
-    .catch(err=>{
-      return {error:err};
-
-    })
-
-  });
-  app.get('/getseveritybugs',(req,res)=>{
-    const db = dbService.getDbServiceInstance();
-    const {severity}=req.body;
-    const result = db.getSeverityBugs(severity);
-    result.then(data=>{
-      res.json({data:data})
-    })
-    .catch(err=>{
-      return {error:err};
-
-    })
-
-  })
-
 app.get("/", (req, res) => {
   res.json({name : "Kashika"})
 });
