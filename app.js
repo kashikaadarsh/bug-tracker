@@ -90,6 +90,32 @@ app.post('/assignbug',(req,res)=>{
 
     })
   });
+  app.get('/getbugdetail',(req,res)=>{
+    const db=dbService.getDbServiceInstance();
+    const {bugId}=req.body;
+    const result=db.getBugDetails(bugId);
+    console.log(result);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:true};
+    })
+
+  })
+  app.post('/createbug',(req,res)=>{
+    const db=dbService.getDbServiceInstance();
+    const {name,createdAt,status,severity,description,createdBy,assignedTo,testedBy,sprintId}=req.body;
+    const result=db.createBug(name,createdAt,status,severity,description,createdBy,assignedTo,testedBy,sprintId);
+    console.log(result);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:true};
+    })
+
+  })
   app.post('/getbugsbyid',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {id,isDev}=req.body;

@@ -330,6 +330,50 @@ async getOpenBugs(){
 
       }
     }
+    async getBugDetails(bugId){
+      try{
+        const bug =await new Promise ((resolve,reject)=>{
+          const query = 'SELECT * FROM bug where id =?;';
+          connection.query(query,[bugId],(err,result)=>{
+            if(err) reject(new Error (err.message));
+            resolve(result);
+          });
+        })
+        if(bug.length==0){
+          return {
+            bugFound:false,
+            error:false
+          }
+        }
+        return {bug:bug};
+      }
+      catch(err){
+        return {
+          error:err.message
+        }
+      }
+    }
+    async createBug(name,createdAt,status,severity,description,createdBy,assignedTo,testedBy,sprintId){
+      try{
+        const set = await new Promise((resolve,reject)=>{
+          const query = 'INSERT INTO bug (name,createdAt,status,severity,description,createdBy,assignedTo,testedBy,sprintId) VALUES(?,?,?,?,?,?,?,?,?);'
+          connection.query(query,[name,createdAt,status,severity,description,createdBy,assignedTo,testedBy,sprintId],(err,result)=>{
+            if(err) reject(new Error (err.message));
+            resolve(result);
+          });
+        })
+      
+      return{
+        added:true,
+        error:false
+      }
+    }
+      catch(err){
+        return{
+          error:err.message
+        }
+      }
+    }
     async assignBug(bugId,devId){
       try{
         const set = await new Promise((resolve,reject)=>{
