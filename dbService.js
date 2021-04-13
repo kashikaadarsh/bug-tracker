@@ -189,6 +189,34 @@ class DbService {
               };
           }
     }
+async getOpenBugs(){
+      try{
+        
+        const bugs = await new Promise((resolve,reject)=>{
+          const query = 'SELECT * FROM bug where assignedTo= 0 ORDER BY severity DESC';
+          connection.query(query, (err, result) => {
+            if (err) reject(new Error(err.message));
+            resolve(result);
+        })
+    });
+      if(bugs.length==0)
+      {
+          return {
+              bugFound : false,
+              error:false
+
+          };
+      }
+      return{
+        bugFound:bugs,
+        error:false
+      }
+        
+      }
+      catch(err){
+        return {error:err.message}
+      }
+    }
     async authUser(email,password,isDev) {
       //console.log(email,password);
           try {
@@ -234,7 +262,7 @@ class DbService {
           } 
           catch (error) {
               return {
-                  error:error//true
+                  error:true
               };
           }
     }

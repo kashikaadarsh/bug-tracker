@@ -24,6 +24,14 @@ app.use(
 app.use(express.json());
 //app.set("view engine", "ejs");
 //app.use(express.static(__dirname + '/views'));
+app.get('/getopenbugs',(req,res)=>{
+  const db = dbService.getDbServiceInstance();
+  const result = db.getOpenBugs();
+  result.then(data => {
+          res.json({data : data})
+      })
+  .catch(err => console.log(err));
+})
 
 app.post('/user/login',(request,response) => {
     const db = dbService.getDbServiceInstance();
@@ -71,7 +79,7 @@ app.post('/register',(req,res)=>{
 
     })
   });
-  app.get('/getbugsbyid',(req,res)=>{
+  app.post('/getbugsbyid',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {id,isDev}=req.body;
     console.log(id,isDev); 
