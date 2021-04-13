@@ -330,6 +330,32 @@ async getOpenBugs(){
 
       }
     }
+    async assignBug(bugId,devId){
+      try{
+        const set = await new Promise((resolve,reject)=>{
+        const query1 = 'UPDATE bug SET assignedTo=? WHERE id=?;';
+        const query2 = 'UPDATE developer SET activeIssues=activeIssues+1 where id=?;';
+        connection.query(query1,[devId,bugId],(err,result)=>{
+          if(err) reject(new Error (err.message));
+          resolve(result);
+        });
+        connection.query(query2,[devId],(err,result)=>{
+          if(err) reject(new Error (err.message));
+          resolve(result);
+        })
+
+        })
+        return {
+          updated:true,
+          error:false
+        }
+      }
+      catch(err){
+        return {
+          error:err.message
+        }
+      }
+    }
     async getBugsById(id,isDev){
       try{
         const bug = await new Promise((resolve,reject)=>{
@@ -350,7 +376,7 @@ async getOpenBugs(){
           bugFound:false,
           error:false
         }
-        var bugs=[];
+        var bugs=[];//send id ,name,severity only
        for(var i=0;i<bug.length;i++){
          var ar=[];
          bugs.push(bug[i]);

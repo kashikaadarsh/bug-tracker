@@ -67,6 +67,17 @@ app.post('/register',(req,res)=>{
     res.json({error:err.message})
   })
 });
+app.post('/assignbug',(req,res)=>{
+  const db=dbService.getDbServiceInstance();
+  const {bugId,devId}=req.body;
+  const result=db.assignBug(bugId,devId);
+  result.then(data=>{
+    res.json({data:data})
+  })
+  .catch(err=>{
+    return {error:true}
+  })
+})
   app.get('/getbugs',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const result=db.getBugs();
