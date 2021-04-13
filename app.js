@@ -59,7 +59,7 @@ app.post('/register',(req,res)=>{
     res.json({error:err.message})
   })
 });
-  app.post('/getbugs',(req,res)=>{
+  app.get('/getbugs',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const result=db.getBugs();
     console.log(result);
@@ -71,10 +71,10 @@ app.post('/register',(req,res)=>{
 
     })
   });
-  app.post('/getbugsbyid',(req,res)=>{
+  app.get('/getbugsbyid',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {id,isDev}=req.body;
-    console.log(id,isDev);
+    console.log(id,isDev); 
     const result=db.getBugsById(id,isDev);
     console.log(result);
     result.then(data=>{
