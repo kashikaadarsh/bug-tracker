@@ -90,7 +90,7 @@ app.post('/assignbug',(req,res)=>{
 
     })
   });
-  app.get('/getbugdetail',(req,res)=>{
+  app.post('/getbugdetail',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {bugId}=req.body;
     const result=db.getBugDetails(bugId);
