@@ -185,7 +185,7 @@ class DbService {
       }
       catch (error) {
               return {
-                  error:true
+                  error:error.message
               };
           }
     }
@@ -335,9 +335,9 @@ async getOpenBugs(){
         const bug = await new Promise((resolve,reject)=>{
           var query;
           if(isDev)
-          query='SELECT * FROM bug WHERE assignedTo=?';
+          query='SELECT * FROM bug WHERE assignedTo=? ORDER BY severity DESC';
           else
-          query='SELECT * FROM bug WHERE testedBy=?';
+          query='SELECT * FROM bug WHERE testedBy=? ORDER BY severity DESC';
           connection.query(query,[id],(err,result)=>{
             if(err) reject(new Error(err.message));
             resolve(result);
