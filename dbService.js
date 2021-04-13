@@ -189,6 +189,24 @@ class DbService {
               };
           }
     }
+async changeBugStatus(id){
+  try{
+    const bug = await new Promise((resolve,reject)=>{
+      const query = 'UPDATE bug SET status = "testing" where id=?';
+      connection.query(query,[id], (err, result) => {
+        if (err) reject(new Error(err.message));
+        resolve(result);
+    })
+    })
+    return{
+      updated:true,
+      error:false
+    };
+    }
+  catch(err){
+    return {error:err.message}
+  }
+} 
 async getOpenBugs(){
       try{
         

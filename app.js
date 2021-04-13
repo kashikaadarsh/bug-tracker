@@ -78,6 +78,17 @@ app.post('/assignbug',(req,res)=>{
     return {error:true}
   })
 })
+app.post('/changebugstatus',(req,res)=>{
+  const db=dbService.getDbServiceInstance();
+  const {id}=req.body;
+  const result=db.changeBugStatus(id);
+  result.then(data=>{
+    res.json({data:data})
+  })
+  .catch(err=>{
+    return{error:true};
+  })
+})
   app.get('/getbugs',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const result=db.getBugs();
