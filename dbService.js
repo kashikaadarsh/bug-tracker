@@ -307,9 +307,9 @@ class DbService {
         const bug = await new Promise((resolve,reject)=>{
           var query;
           if(isDev)
-          query='SELECT * FROM developer where id=?';
+          query='SELECT * FROM bug WHERE assignedTo=?';
           else
-          query='SELECT * FROM tester where id=?';
+          query='SELECT * FROM bug WHERE testedBy=?';
           connection.query(query,[id],(err,result)=>{
             if(err) reject(new Error(err.message));
             resolve(result);
@@ -322,7 +322,12 @@ class DbService {
           bugFound:false,
           error:false
         }
-        return bug;
+        var bugs=[];
+       for(var i=0;i<bug.length;i++){
+         var ar=[];
+         bugs.push(bug[i]);
+       }
+       return bugs;
       }
       catch{
         return{
@@ -347,13 +352,11 @@ class DbService {
           
           error:false
         };
-      //  var bugs=[];
-      //  for(var i=0;i<bug.length;i++){
-      //    var ar=[];
-      //    ar.push(bug[i].id);ar.push(bug[i].name),ar.push(bug[i].severity);
-      //    bugs.push(ar);
-      //  }
-       return bug;
+       var bugs=[];
+       for(var i=0;i<bug.length;i++){
+         bugs.push(bug[i]);
+       }
+       return bugs;
       }
       catch{
         return{

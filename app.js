@@ -71,10 +71,12 @@ app.post('/register',(req,res)=>{
 
     })
   });
-  app.get('getbugsbyid',(req,res)=>{
+  app.post('/getbugsbyid',(req,res)=>{
     const db=dbService.getDbServiceInstance();
     const {id,isDev}=req.body;
+    console.log(id,isDev);
     const result=db.getBugsById(id,isDev);
+    console.log(result);
     result.then(data=>{
       res.json({data:data})
     })
