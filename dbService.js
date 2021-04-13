@@ -302,12 +302,40 @@ class DbService {
 
       }
     }
-    async getBug(bug_id){
-      console.log(bug_id);
+    async getBugsById(id,isDev){
       try{
         const bug = await new Promise((resolve,reject)=>{
-          const query = 'SELECT * FROM bug where id= ?;';
-          connection.query(query,[bug_id],(err,result)=>{
+          var query;
+          if(isDev)
+          query='SELECT * FROM developer where id=?';
+          else
+          query='SELECT * FROM tester where id=?';
+          connection.query(query,[id],(err,result)=>{
+            if(err) reject(new Error(err.message));
+            resolve(result);
+          });
+
+        });
+        console.log(bug);
+        if(bug.length==0)
+        return{
+          bugFound:false,
+          error:false
+        }
+        return bug;
+      }
+      catch{
+        return{
+          error:true
+        };
+
+      }
+    }
+    async getBugs(){
+      try{
+        const bug = await new Promise((resolve,reject)=>{
+          const query = 'SELECT id,name,severity FROM bug ORDER  BY createdAt DESC LIMIT 10;';
+          connection.query(query,(err,result)=>{
             if(err) reject(new Error(err.message));
             resolve(result);
           });
@@ -319,19 +347,13 @@ class DbService {
           
           error:false
         };
-        return{
-          bugFound:true,
-          name:bug[0].name,
-          createdBy:bug[0].createdBy,
-          createdAt:bug[0].createdAt,
-          status: bug[0].status,
-          severity:bug[0].severity,
-          description:bug[0].description,
-          assignedTo: bug[0].assignedTo,
-          testedBy: bug[0].testedBy,
-          sprintId: bug[0].sprintId,
-          error:false
-        }
+      //  var bugs=[];
+      //  for(var i=0;i<bug.length;i++){
+      //    var ar=[];
+      //    ar.push(bug[i].id);ar.push(bug[i].name),ar.push(bug[i].severity);
+      //    bugs.push(ar);
+      //  }
+       return bug;
       }
       catch{
         return{

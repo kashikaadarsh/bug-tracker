@@ -36,6 +36,7 @@ app.post('/user/login',(request,response) => {
         })
     .catch(err => console.log(err));
   })
+
 app.get('/getuser',(req,res)=>{
   const db = dbService.getDbServiceInstance();
   const {id,isDev}=req.body;
@@ -58,18 +59,30 @@ app.post('/register',(req,res)=>{
     res.json({error:err.message})
   })
 });
-  app.get('/getbug',(req,res)=>{
+  app.post('/getbugs',(req,res)=>{
     const db=dbService.getDbServiceInstance();
-    const {bug_id}=req.body;
-    const result=db.getBug(bug_id);
+    const result=db.getBugs();
+    console.log(result);
     result.then(data=>{
       res.json({data:data})
     })
     .catch(err=>{
-      return {error:err};
+      return {error:true};
 
     })
   });
+  app.get('getbugsbyid',(req,res)=>{
+    const db=dbService.getDbServiceInstance();
+    const {id,isDev}=req.body;
+    const result=db.getBugsById(id,isDev);
+    result.then(data=>{
+      res.json({data:data})
+    })
+    .catch(err=>{
+      return {error:true};
+    })
+    
+  })
 app.get("/", (req, res) => {
   res.json({name : "Kashika"})
 });
