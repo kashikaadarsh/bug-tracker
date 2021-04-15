@@ -80,8 +80,8 @@ app.post('/assignbug',(req,res)=>{
 })
 app.post('/sendtotesting',(req,res)=>{
   const db=dbService.getDbServiceInstance();
-  const {bugId}=req.body;
-  const result=db.sendToTesting(bugId);
+  const {bugId,devId}=req.body;
+  const result=db.sendToTesting(bugId,devId);
   result.then(data=>{
     res.json({data:data})
   })

@@ -393,15 +393,19 @@ async getOpenBugs(){
         }
       }
     }
-    async sendToTesting(bugId){
+    async sendToTesting(bugId,devId){
       try{
         const set = await new Promise((resolve,reject)=>{
         const query1 = 'UPDATE bug SET  status ="testing" WHERE id=?;';
+        const query2 = 'UPDATE developer SET activeIssues=activeIssues-1 where id=?;';
         connection.query(query1,[bugId],(err,result)=>{
           if(err) reject(new Error (err.message));
           resolve(result);
         });
-
+        connection.query(query2,[devId],(err,result)=>{
+          if(err) reject(new Error (err.message));
+          resolve(result);
+        })
         })
         return {
           updated:true,
