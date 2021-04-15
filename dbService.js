@@ -261,6 +261,7 @@ async getOpenBugs(){
               if(isDev){
                 return{
                   userFound:true,
+                  id:user[0].id,
                   username:user[0].name,
                   email:user[0].email,
                   activeIssues:user[0].activeIssues,
@@ -392,10 +393,31 @@ async getOpenBugs(){
         }
       }
     }
+    async sendToTesting(bugId){
+      try{
+        const set = await new Promise((resolve,reject)=>{
+        const query1 = 'UPDATE bug SET  status ="testing" WHERE id=?;';
+        connection.query(query1,[bugId],(err,result)=>{
+          if(err) reject(new Error (err.message));
+          resolve(result);
+        });
+
+        })
+        return {
+          updated:true,
+          
+        }
+      }
+      catch(err){
+        return {
+          updated:true,
+        }
+      }
+    }
     async assignBug(bugId,devId){
       try{
         const set = await new Promise((resolve,reject)=>{
-        const query1 = 'UPDATE bug SET assignedTo=? WHERE id=?;';
+        const query1 = 'UPDATE bug SET assignedTo=? , status ="active" WHERE id=?;';
         const query2 = 'UPDATE developer SET activeIssues=activeIssues+1 where id=?;';
         connection.query(query1,[devId,bugId],(err,result)=>{
           if(err) reject(new Error (err.message));
